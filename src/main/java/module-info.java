@@ -6,4 +6,6 @@ module org.nkon.tetris {
 
     opens org.nkon.tetris to javafx.fxml;
     exports org.nkon.tetris;
+    exports org.nkon.tetris.Controllers;
+    opens org.nkon.tetris.Controllers to javafx.fxml;
 }

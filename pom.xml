@@ -15,6 +15,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -42,6 +43,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -64,7 +66,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.nkon.tetris/org.nkon.tetris.HelloApplication</mainClass>
+                            <mainClass>org.nkon.tetris/org.nkon.tetris.TetrisApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
