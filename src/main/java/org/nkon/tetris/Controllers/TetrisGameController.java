@@ -24,7 +24,6 @@ public class TetrisGameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gameCanvas.widthProperty().bind(gamePane.widthProperty());
         gameCanvas.heightProperty().bind(gamePane.heightProperty());
-
         gameCanvas.sceneProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 gameManager = new GameManager(gameCanvas);
