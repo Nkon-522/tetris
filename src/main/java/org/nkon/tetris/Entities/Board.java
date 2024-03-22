@@ -3,9 +3,9 @@ package org.nkon.tetris.Entities;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import org.nkon.tetris.Entities.Mino.Block;
-import org.nkon.tetris.Entities.Mino.Mino;
-import org.nkon.tetris.Entities.Mino.MinoL1;
+import org.nkon.tetris.Entities.Mino.*;
+
+import java.util.Random;
 
 public class Board {
 
@@ -22,13 +22,25 @@ public class Board {
     @SuppressWarnings("FieldCanBeLocal")
     private int MINO_Y_START_POSITION;
 
+    private Mino getRandomMino() {
+        return switch (new Random().nextInt(7)) {
+            case 0 -> new MinoL1();
+            case 1 -> new MinoL2();
+            case 2 -> new MinoSquare();
+            case 3 -> new MinoBar();
+            case 4 -> new MinoT();
+            case 5 -> new MinoZ1();
+            case 6 -> new MinoZ2();
+            default -> throw new IllegalStateException("Unexpected value: " + new Random().nextInt(7));
+        };
+    }
 
     private void updateValues() {
         x =  ( (int) (canvas.getWidth()/2) - (WIDTH/2));
         y = 50;
         MINO_X_START_POSITION = x + (WIDTH/2) - Block.SIZE;
         MINO_Y_START_POSITION = y + Block.SIZE + 4;
-        currentMino = new MinoL1();
+        currentMino = getRandomMino();
         currentMino.setXY(MINO_X_START_POSITION, MINO_Y_START_POSITION);
     }
 
