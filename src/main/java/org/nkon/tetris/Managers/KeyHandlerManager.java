@@ -7,7 +7,7 @@ public class KeyHandlerManager {
     @SuppressWarnings("FieldCanBeLocal")
     private final Scene gameScene;
 
-    public static boolean rightPressed, upPressed, leftPressed, downPressed;
+    public static boolean rightPressed, upPressed, leftPressed, downPressed, pausePressed = false;
     public KeyHandlerManager(Scene gameScene) {
         this.gameScene = gameScene;
 
@@ -18,6 +18,7 @@ public class KeyHandlerManager {
                 case "A","LEFT"-> leftPressed = true;
                 case "W","UP"-> upPressed = true;
                 case "S","DOWN"-> downPressed = true;
+                case "SPACE"-> pausePressed = !pausePressed;
             }
         });
     }

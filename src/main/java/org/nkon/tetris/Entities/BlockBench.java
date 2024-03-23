@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.nkon.tetris.Entities.Mino.Mino;
 
 public class BlockBench {
     Canvas canvas;
@@ -19,9 +20,28 @@ public class BlockBench {
     private int x;
     private int y;
 
+    private static Mino nextMino;
+    @SuppressWarnings("FieldCanBeLocal")
+    private static int NEXT_MINO_X_START_POSITION;
+    @SuppressWarnings("FieldCanBeLocal")
+    private static int NEXT_MINO_Y_START_POSITION;
+
     private void updateValues() {
         x =  ( (int) (canvas.getWidth()/2) - (Board.WIDTH/2)) + Board.WIDTH + 100;
         y = 50 + Board.HEIGHT - 200;
+
+        NEXT_MINO_X_START_POSITION = x + WIDTH/2 - 20;
+        NEXT_MINO_Y_START_POSITION = y + HEIGHT/2;
+
+        nextMino = Mino.getRandomMino();
+        nextMino.setXY(NEXT_MINO_X_START_POSITION, NEXT_MINO_Y_START_POSITION);
+    }
+
+    public static Mino getNextMino() {
+        Mino minoReturned = nextMino;
+        nextMino = Mino.getRandomMino();
+        nextMino.setXY(NEXT_MINO_X_START_POSITION, NEXT_MINO_Y_START_POSITION);
+        return minoReturned;
     }
 
     public BlockBench(Canvas canvas) {
@@ -37,6 +57,10 @@ public class BlockBench {
 
         graphicsContext.setFont(font);
         graphicsContext.setFill(Color.WHITE);
-        graphicsContext.fillText("NEXT", x + 20, y + 60);
+        graphicsContext.fillText("NEXT", x + 20, y + 40);
+
+        if (nextMino != null) {
+            nextMino.draw(graphicsContext);
+        }
     }
 }

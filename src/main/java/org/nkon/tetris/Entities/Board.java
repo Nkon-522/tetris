@@ -3,15 +3,19 @@ package org.nkon.tetris.Entities;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import org.nkon.tetris.Entities.Mino.*;
+import javafx.scene.text.Font;
+import org.nkon.tetris.Entities.Mino.Block;
+import org.nkon.tetris.Entities.Mino.Mino;
+import org.nkon.tetris.Managers.KeyHandlerManager;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
 
     Canvas canvas;
     static public final int WIDTH = 360;
-    static public final int HEIGHT = 600;
+    static public final int HEIGHT = 608;
 
     private int x;
     private int y;
@@ -21,26 +25,19 @@ public class Board {
     private int MINO_X_START_POSITION;
     @SuppressWarnings("FieldCanBeLocal")
     private int MINO_Y_START_POSITION;
-
-    private Mino getRandomMino() {
-        return switch (new Random().nextInt(7)) {
-            case 0 -> new MinoL1();
-            case 1 -> new MinoL2();
-            case 2 -> new MinoSquare();
-            case 3 -> new MinoBar();
-            case 4 -> new MinoT();
-            case 5 -> new MinoZ1();
-            case 6 -> new MinoZ2();
-            default -> throw new IllegalStateException("Unexpected value: " + new Random().nextInt(7));
-        };
-    }
+    private static ArrayList<Block> staticBlocks = new ArrayList<>();
 
     private void updateValues() {
         x =  ( (int) (canvas.getWidth()/2) - (WIDTH/2));
         y = 50;
+        Mino.leftBorder = x;
+        Mino.rightBorder = x + WIDTH;
+        Mino.bottomBorder = y + HEIGHT;
+
         MINO_X_START_POSITION = x + (WIDTH/2) - Block.SIZE;
         MINO_Y_START_POSITION = y + Block.SIZE + 4;
-        currentMino = getRandomMino();
+
+        currentMino = Mino.getRandomMino();
         currentMino.setXY(MINO_X_START_POSITION, MINO_Y_START_POSITION);
     }
 
@@ -48,11 +45,17 @@ public class Board {
         this.canvas = canvas;
         canvas.widthProperty().addListener((observableValue, number, t1) -> updateValues());
         canvas.heightProperty().addListener((observableValue, number, t1) -> updateValues());
-
     }
 
     public void update() {
-        currentMino.update();
+        if (!currentMino.active) {
+            staticBlocks.addAll(Arrays.asList(currentMino.getBlocks()));
+            currentMino = BlockBench.getNextMino();
+            currentMino.setXY(MINO_X_START_POSITION, MINO_Y_START_POSITION);
+
+        } else {
+            currentMino.update();
+        }
     }
 
     public void draw(GraphicsContext graphicsContext) {
@@ -61,6 +64,16 @@ public class Board {
         graphicsContext.strokeRect(x,y, WIDTH, HEIGHT);
         if (currentMino != null) {
             currentMino.draw(graphicsContext);
+        }
+
+        for (Block staticBlock : staticBlocks) {
+            staticBlock.draw(graphicsContext);
+        }
+
+        if (KeyHandlerManager.pausePressed) {
+            graphicsContext.setFill(Color.YELLOW);
+            graphicsContext.setFont(new Font("Arial",50));
+            graphicsContext.fillText("PAUSED", x + 70, y + 320);
         }
     }
 }
