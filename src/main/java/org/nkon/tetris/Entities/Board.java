@@ -8,6 +8,7 @@ import org.nkon.tetris.Entities.Mino.Block;
 import org.nkon.tetris.Entities.Mino.Mino;
 import org.nkon.tetris.Managers.KeyHandlerManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
@@ -17,6 +18,10 @@ public class Board {
     static public final int HEIGHT = 608;
     private int x;
     private int y;
+
+    private boolean effectCounterOn;
+    private int effectCounter;
+    private final ArrayList<Integer> effectY = new ArrayList<>();
 
     private Mino currentMino;
     @SuppressWarnings("FieldCanBeLocal")
@@ -60,6 +65,10 @@ public class Board {
             if (x == this.x + WIDTH) {
 
                 if (blockCount == 12) {
+
+                    effectCounterOn = true;
+                    effectY.add(y);
+
                     for (int i = Block.staticBlocks.size() - 1; i > -1; i--) {
                         if (Block.staticBlocks.get(i).getY() == y) {
                             Block.staticBlocks.remove(i);
@@ -105,6 +114,25 @@ public class Board {
 
         for (Block staticBlock : Block.staticBlocks) {
             staticBlock.draw(graphicsContext);
+        }
+
+        if (effectCounterOn) {
+            effectCounter++;
+
+            for (Integer integer : effectY) {
+                if (effectCounter % 2 == 0) {
+                    graphicsContext.setFill(Color.WHITE);
+
+                } else {
+                    graphicsContext.setFill(Color.RED);
+                }
+                graphicsContext.fillRect(this.x, integer, WIDTH, Block.SIZE);
+            }
+            if (effectCounter == 10) {
+                effectCounterOn = !effectCounterOn;
+                effectCounter = 0;
+                effectY.clear();
+            }
         }
 
         if (KeyHandlerManager.pausePressed) {
