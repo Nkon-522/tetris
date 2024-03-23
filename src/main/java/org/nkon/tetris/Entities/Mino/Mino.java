@@ -15,6 +15,8 @@ abstract public class Mino {
     private boolean leftCollision, rightCollision, bottomCollision;
     @SuppressWarnings("FieldCanBeLocal")
     public boolean active = true;
+    public boolean deactivating;
+    private int deactivateCounter = 0;
     public static int leftBorder, rightBorder, bottomBorder;
     protected int direction = 0;
 
@@ -117,7 +119,23 @@ abstract public class Mino {
         }
     }
 
+    private void deactiveBlock() {
+        deactivateCounter++;
+        if (deactivateCounter == 45) {
+            deactivateCounter = 0;
+            checkMovementCollision();
+
+            if (bottomCollision) {
+                active = false;
+            }
+        }
+    }
+
     public void update() {
+        if (deactivating) {
+            deactiveBlock();
+        }
+
         if (KeyHandlerManager.upPressed) {
             handleRotation();
             KeyHandlerManager.upPressed = false;
@@ -150,7 +168,8 @@ abstract public class Mino {
             KeyHandlerManager.downPressed = false;
         }
         if (bottomCollision) {
-            this.active = false;
+            this.deactivating = true;
+
         } else {
             handleDrop();
         }

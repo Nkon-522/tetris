@@ -47,6 +47,9 @@ public class Board {
     public void update() {
         if (!currentMino.active) {
             Block.staticBlocks.addAll(Arrays.asList(currentMino.getBlocks()));
+
+            currentMino.deactivating = false;
+
             currentMino = BlockBench.getNextMino();
             currentMino.setXY(MINO_X_START_POSITION, MINO_Y_START_POSITION);
 
