@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import org.nkon.tetris.Entities.Background;
 import org.nkon.tetris.Entities.BlockBench;
 import org.nkon.tetris.Entities.Board;
+import org.nkon.tetris.Entities.ScoreBoard;
 
 public class GameManager implements Runnable {
 
@@ -23,6 +24,7 @@ public class GameManager implements Runnable {
     private final Background background;
     private final Board board;
     private final BlockBench blockBench;
+    private final ScoreBoard scoreBoard;
 
     private void initializeEventHandler() {
         keyHandlerManager = new KeyHandlerManager(gameScene);
@@ -36,6 +38,7 @@ public class GameManager implements Runnable {
         background = new Background(canvas);
         board = new Board(canvas);
         blockBench = new BlockBench(canvas);
+        scoreBoard = new ScoreBoard(canvas);
 
         // Initializers
         initializeEventHandler();
@@ -51,6 +54,7 @@ public class GameManager implements Runnable {
         background.draw(graphicsContext);
         board.draw(graphicsContext);
         blockBench.draw(graphicsContext);
+        scoreBoard.draw(graphicsContext);
     }
 
     private void update() {

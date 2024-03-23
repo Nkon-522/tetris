@@ -55,6 +55,7 @@ public class Board {
         int x = this.x;
         int y = this.y + 4;
         int blockCount = 0;
+        int lineCount = 0;
 
         while (x < this.x + WIDTH && y < this.y + HEIGHT) {
             for (int i = 0; i < Block.staticBlocks.size(); i++) {
@@ -77,6 +78,18 @@ public class Board {
                         }
                     }
 
+                    lineCount++;
+                    ScoreBoard.lines++;
+
+                    if (ScoreBoard.lines % 10 == 0 && Mino.dropInterval > 1) {
+                        ScoreBoard.level++;
+                        if (Mino.dropInterval > 10) {
+                            Mino.dropInterval -= 10;
+                        } else {
+                            Mino.dropInterval -= 1;
+                        }
+                    }
+
                     for (int i = 0; i < Block.staticBlocks.size(); i++) {
                         if (Block.staticBlocks.get(i).getY() < y) {
                             Block.staticBlocks.get(i).setY(Block.staticBlocks.get(i).getY() + Block.SIZE);
@@ -88,6 +101,10 @@ public class Board {
                 x = this.x;
                 y += Block.SIZE;
             }
+        }
+        if (lineCount > 0) {
+            int singleLineScore = 10 * ScoreBoard.level;
+            ScoreBoard.score += singleLineScore * lineCount;
         }
     }
 

@@ -10,7 +10,7 @@ abstract public class Mino {
     @SuppressWarnings("FieldCanBeLocal")
     private final int margin = 4;
     @SuppressWarnings("FieldCanBeLocal")
-    private final int dropInterval = 120;
+    public static int dropInterval = 120;
     private int autoDropCounter = 0;
     private boolean leftCollision, rightCollision, bottomCollision;
     @SuppressWarnings("FieldCanBeLocal")
