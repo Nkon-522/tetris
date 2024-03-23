@@ -14,6 +14,7 @@ public class TetrisApplication extends Application {
         MainAppManager.loadNewScene("tetris-game-view.fxml");
 
         stage.setTitle("Simple Tetris!");
+        stage.setResizable(false);
         stage.show();
     }
 

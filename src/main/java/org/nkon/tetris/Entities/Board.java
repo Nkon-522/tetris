@@ -29,6 +29,8 @@ public class Board {
     @SuppressWarnings("FieldCanBeLocal")
     private int MINO_Y_START_POSITION;
 
+    private boolean gameOver;
+
     private void updateValues() {
         x =  ( (int) (canvas.getWidth()/2) - (WIDTH/2));
         y = 50;
@@ -93,6 +95,10 @@ public class Board {
         if (!currentMino.active) {
             Block.staticBlocks.addAll(Arrays.asList(currentMino.getBlocks()));
 
+            if (currentMino.getBlocks()[0].getX() == MINO_X_START_POSITION && currentMino.getBlocks()[0].getY() == MINO_Y_START_POSITION) {
+                gameOver = true;
+            }
+
             currentMino.deactivating = false;
 
             currentMino = BlockBench.getNextMino();
@@ -135,10 +141,18 @@ public class Board {
             }
         }
 
-        if (KeyHandlerManager.pausePressed) {
+        if (gameOver) {
+            graphicsContext.setFill(Color.FLORALWHITE);
+            graphicsContext.setFont(new Font("Arial",50));
+            graphicsContext.fillText("GAME OVER", x + 40, y + 320);
+        } else if (KeyHandlerManager.pausePressed) {
             graphicsContext.setFill(Color.YELLOW);
             graphicsContext.setFont(new Font("Arial",50));
-            graphicsContext.fillText("PAUSED", x + 70, y + 320);
+            graphicsContext.fillText("PAUSED", x + 50, y + 320);
         }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }

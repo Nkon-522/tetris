@@ -54,7 +54,9 @@ public class GameManager implements Runnable {
     }
 
     private void update() {
-        if (!KeyHandlerManager.pausePressed) {board.update();}
+        if (!KeyHandlerManager.pausePressed && !board.isGameOver()) {
+            board.update();
+        }
     }
 
     public void launchGame() {
