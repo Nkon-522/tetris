@@ -44,6 +44,42 @@ public class Board {
         canvas.heightProperty().addListener((observableValue, number, t1) -> updateValues());
     }
 
+    public void checkDelete() {
+        int x = this.x;
+        int y = this.y + 4;
+        int blockCount = 0;
+
+        while (x < this.x + WIDTH && y < this.y + HEIGHT) {
+            for (int i = 0; i < Block.staticBlocks.size(); i++) {
+                if (Block.staticBlocks.get(i).getX() == x && Block.staticBlocks.get(i).getY() == y) {
+                    blockCount++;
+                }
+            }
+            x += Block.SIZE;
+
+            if (x == this.x + WIDTH) {
+
+                if (blockCount == 12) {
+                    for (int i = Block.staticBlocks.size() - 1; i > -1; i--) {
+                        if (Block.staticBlocks.get(i).getY() == y) {
+                            Block.staticBlocks.remove(i);
+                        }
+                    }
+
+                    for (int i = 0; i < Block.staticBlocks.size(); i++) {
+                        if (Block.staticBlocks.get(i).getY() < y) {
+                            Block.staticBlocks.get(i).setY(Block.staticBlocks.get(i).getY() + Block.SIZE);
+                        }
+                    }
+                }
+
+                blockCount = 0;
+                x = this.x;
+                y += Block.SIZE;
+            }
+        }
+    }
+
     public void update() {
         if (!currentMino.active) {
             Block.staticBlocks.addAll(Arrays.asList(currentMino.getBlocks()));
@@ -53,6 +89,7 @@ public class Board {
             currentMino = BlockBench.getNextMino();
             currentMino.setXY(MINO_X_START_POSITION, MINO_Y_START_POSITION);
 
+            checkDelete();
         } else {
             currentMino.update();
         }
