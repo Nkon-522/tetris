@@ -69,6 +69,7 @@ abstract public class Mino {
 
     private void checkRotationCollision() {
         leftCollision = rightCollision = bottomCollision = false;
+        checkStaticBlockCollision();
         for (Block block : tempB) {
             if (block.x < leftBorder) {
                 leftCollision = true;
@@ -82,8 +83,27 @@ abstract public class Mino {
         }
     }
 
+    private void checkStaticBlockCollision() {
+        for (int i = 0; i < Block.staticBlocks.size(); i++) {
+            int targetX = Block.staticBlocks.get(i).x;
+            int targetY = Block.staticBlocks.get(i).y;
+            for (Block block : b) {
+                if (block.y + Block.SIZE == targetY && block.x == targetX) {
+                    bottomCollision = true;
+                }
+                if (block.x - Block.SIZE == targetX && block.y == targetY) {
+                    leftCollision = true;
+                }
+                if (block.x + Block.SIZE == targetX && block.y == targetY) {
+                    rightCollision = true;
+                }
+            }
+        }
+    }
+
     private void checkMovementCollision() {
         leftCollision = rightCollision = bottomCollision = false;
+        checkStaticBlockCollision();
         for (Block block : b) {
             if (block.x == leftBorder) {
                 leftCollision = true;

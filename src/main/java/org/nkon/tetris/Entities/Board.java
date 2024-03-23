@@ -8,7 +8,6 @@ import org.nkon.tetris.Entities.Mino.Block;
 import org.nkon.tetris.Entities.Mino.Mino;
 import org.nkon.tetris.Managers.KeyHandlerManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
@@ -16,7 +15,6 @@ public class Board {
     Canvas canvas;
     static public final int WIDTH = 360;
     static public final int HEIGHT = 608;
-
     private int x;
     private int y;
 
@@ -25,7 +23,6 @@ public class Board {
     private int MINO_X_START_POSITION;
     @SuppressWarnings("FieldCanBeLocal")
     private int MINO_Y_START_POSITION;
-    private static ArrayList<Block> staticBlocks = new ArrayList<>();
 
     private void updateValues() {
         x =  ( (int) (canvas.getWidth()/2) - (WIDTH/2));
@@ -49,7 +46,7 @@ public class Board {
 
     public void update() {
         if (!currentMino.active) {
-            staticBlocks.addAll(Arrays.asList(currentMino.getBlocks()));
+            Block.staticBlocks.addAll(Arrays.asList(currentMino.getBlocks()));
             currentMino = BlockBench.getNextMino();
             currentMino.setXY(MINO_X_START_POSITION, MINO_Y_START_POSITION);
 
@@ -66,7 +63,7 @@ public class Board {
             currentMino.draw(graphicsContext);
         }
 
-        for (Block staticBlock : staticBlocks) {
+        for (Block staticBlock : Block.staticBlocks) {
             staticBlock.draw(graphicsContext);
         }
 
