@@ -18,7 +18,7 @@ public class KeyHandlerManager {
                 case "A","LEFT"-> leftPressed = true;
                 case "W","UP"-> upPressed = true;
                 case "S","DOWN"-> downPressed = true;
-                case "SPACE"-> pausePressed = !pausePressed;
+                case "SPACE"-> {pausePressed = !pausePressed;SoundManager.handleBackground();}
             }
         });
     }

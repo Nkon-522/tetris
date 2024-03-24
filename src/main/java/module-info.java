@@ -4,6 +4,8 @@ module org.nkon.tetris {
 
     requires org.controlsfx.controls;
 
+    requires java.desktop;
+
     opens org.nkon.tetris to javafx.fxml;
     exports org.nkon.tetris;
     exports org.nkon.tetris.Controllers;

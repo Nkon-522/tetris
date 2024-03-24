@@ -7,6 +7,7 @@ import javafx.scene.text.Font;
 import org.nkon.tetris.Entities.Mino.Block;
 import org.nkon.tetris.Entities.Mino.Mino;
 import org.nkon.tetris.Managers.KeyHandlerManager;
+import org.nkon.tetris.Managers.SoundManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,6 +104,7 @@ public class Board {
             }
         }
         if (lineCount > 0) {
+            SoundManager.play(1, false);
             int singleLineScore = 10 * ScoreBoard.level;
             ScoreBoard.score += singleLineScore * lineCount;
         }
@@ -114,6 +116,8 @@ public class Board {
 
             if (currentMino.getBlocks()[0].getX() == MINO_X_START_POSITION && currentMino.getBlocks()[0].getY() == MINO_Y_START_POSITION) {
                 gameOver = true;
+                SoundManager.stopBackground();
+                SoundManager.play(2, false);
             }
 
             currentMino.deactivating = false;

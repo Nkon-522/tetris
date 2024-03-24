@@ -66,6 +66,8 @@ public class GameManager implements Runnable {
     public void launchGame() {
         gameThread = new Thread(this);
         gameThread.start();
+
+        SoundManager.playBackground();
     }
 
     @Override

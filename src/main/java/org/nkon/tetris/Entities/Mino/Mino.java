@@ -3,6 +3,7 @@ package org.nkon.tetris.Entities.Mino;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.nkon.tetris.Managers.KeyHandlerManager;
+import org.nkon.tetris.Managers.SoundManager;
 
 import java.util.Random;
 
@@ -139,6 +140,7 @@ abstract public class Mino {
         if (KeyHandlerManager.upPressed) {
             handleRotation();
             KeyHandlerManager.upPressed = false;
+            SoundManager.play(3, false);
         }
 
         checkMovementCollision();
@@ -168,6 +170,9 @@ abstract public class Mino {
             KeyHandlerManager.downPressed = false;
         }
         if (bottomCollision) {
+            if (!deactivating) {
+                SoundManager.play(4, false);
+            }
             this.deactivating = true;
 
         } else {
